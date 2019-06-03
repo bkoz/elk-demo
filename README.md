@@ -164,30 +164,6 @@ Let LogStash upload the cars data into elastic search. This could take several m
 bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
 ```
 
-Example query.
-
-```
-curl -X GET "http://elasticsearch-elk.apps.example.com/_count?pretty" -H 'Content-Type: application/json' -d'
-{
-    "query": {
-        "match_all": {}
-    }
-}'
-```
-The output should resemble.
-
-```
-{
-  "count" : 71258,
-  "_shards" : {
-    "total" : 20,
-    "successful" : 7,
-    "skipped" : 0,
-    "failed" : 0
-  }
-}
-```
-
 Example query. How many ford cars are found?
 
 ```
