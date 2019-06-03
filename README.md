@@ -217,7 +217,7 @@ curl -XPOST "http://elasticsearch-cake.apps.example.com:80/cars/_count?pretty" -
 
 #### Add a pie-chart visualization.
 
-* Visit the kibana console
+* Visit the kibana console (http://kibana-elk.apps.example.com)
 * Configure the index pattern to be cars*
 * Create
 * Visualize->Create visualization
