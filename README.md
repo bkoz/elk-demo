@@ -228,4 +228,4 @@ curl -XPOST "http://elasticsearch-cake.apps.example.com:80/cars/_count?pretty" -
 * Descend -> Size = 30
 * Choose the "play/Apply changes" button
 
-![Kibana]({% images top30.png %})
+![Kibana](images/top30.png)
