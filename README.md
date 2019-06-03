@@ -90,7 +90,8 @@ oc adm policy add-scc-to-user anyuid -z default -n $PROJ
 ```
 
 Use the OpenShift client to deploy the Kibana container with. The ```ELASTICSEARCH_URL``` variable gets set to
-the Kubernetes serivce name of the ElasticSearch database. 
+the Kubernetes serivce name of the ElasticSearch database. This allows the Kibana pod to **discover** the 
+ElasticSearch service.
 
 ```
 oc new-app docker.elastic.co/kibana/kibana:6.0.1 -e ELASTICSEARCH_URL=http://elasticsearch.elk.svc.cluster.local:9200
