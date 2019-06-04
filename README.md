@@ -189,17 +189,16 @@ Example output.
 }
 ```
 
-#### Add a pie-chart visualization.
+#### Add a visualization.
 
-* Visit the kibana console (http://kibana-elk.apps.example.com)
+* Visit the Kibana console (http://kibana-elk.apps.example.com)
 * Configure the index pattern to be ```cars*```
 * Create
-* Visualize->Create visualization
-* Pie
-* Choose the cars* index
-* Split Slices -> Aggregation -> Terms
-* Field -> maker.keyword
-* Descend -> Size = 30
-* Choose the "play/Apply changes" button
+* Visualize -> Create visualization -> Pie
+* Choose the ```cars*``` index
+* Split Slices -> Aggregation -> ```Terms```
+* Field -> ```maker.keyword```
+* Descend -> Size = ```30```
+* Choose the "Play/Apply changes" button
 
 ![Kibana](images/top30.png)
