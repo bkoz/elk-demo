@@ -176,11 +176,14 @@ Example output.
 }
 ```
 
-#### Add a visualization.
+#### Kibana visualization.
 
 * Visit the Kibana console (${KIBANA_ROUTE})
 * Configure the index pattern to be ```cars*```
-* Create
+* -> Create
+
+![Kibana](images/index.png)
+
 * Visualize -> Create visualization -> Pie
 * Choose the ```cars*``` index
 * Split Slices -> Aggregation -> ```Terms```
