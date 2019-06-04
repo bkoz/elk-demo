@@ -32,7 +32,7 @@ oc expose svc elasticsearch
 
 Test connectivity through the router.
 
-Save the external route.
+Save the ElasticSearch route.
 
 ```
 ES_ROUTE=$(oc get route --selector=app=elasticsearch --output=custom-columns=NAME:.spec.host --no-headers)
