@@ -42,6 +42,10 @@ NAME            HOST/PORT                                       PATH      SERVIC
 elasticsearch   elasticsearch-elk.apps.example.com             elasticsearch   9200-tcp                 None
 ```
 
+```
+ES_ROUTE=elasticsearch-elk.apps.example.com
+```
+
 Confirm the ElasticSearch pod is running and ready.
 
 ```
@@ -165,10 +169,30 @@ Let LogStash upload the cars data into elastic search. This could take several m
 bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
 ```
 
+Watch the progress.
+
+```
+curl -XPOST "http://${ROUTE}:80/cars/_count?pretty"
+```
+
+Example output.
+
+```
+{
+  "count" : 3567913,
+  "_shards" : {
+    "total" : 5,
+    "successful" : 5,
+    "skipped" : 0,
+    "failed" : 0
+  }
+}
+```
+
 Example query. How many ford cars are found?
 
 ```
-curl -XPOST "http://elasticsearch-cake.apps.example.com:80/cars/_count?pretty" -H 'Content-Type: application/json' -d '
+curl -XPOST "${ES_ROUTE}:80/cars/_count?pretty" -H 'Content-Type: application/json' -d '
   {
      "query": {
         "query_string": {
