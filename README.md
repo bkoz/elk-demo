@@ -189,37 +189,10 @@ Example output.
 }
 ```
 
-Example query. How many ford cars are found?
-
-```
-curl -XPOST "${ES_ROUTE}:80/cars/_count?pretty" -H 'Content-Type: application/json' -d '
-  {
-     "query": {
-        "query_string": {
-            "query": "ford"
-          }
-       }
-  }'
-  ```
-
-  The output should resemble.
-
-```
-{
-  "count" : 4529,
-  "_shards" : {
-    "total" : 5,
-    "successful" : 4,
-    "skipped" : 0,
-    "failed" : 0
-  }
-}
-```
-
 #### Add a pie-chart visualization.
 
 * Visit the kibana console (http://kibana-elk.apps.example.com)
-* Configure the index pattern to be cars*
+* Configure the index pattern to be ```cars*```
 * Create
 * Visualize->Create visualization
 * Pie
