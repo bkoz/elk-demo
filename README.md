@@ -1,6 +1,6 @@
 # elk-demo
 
-Deploy an ElasticSearch, Logstash, Kibana stack on OpenShift.
+How I deployed an ElasticSearch, Logstash, Kibana (EFK) stack on OpenShift. This is not a Red Hat supported document. 
 
 ### Node configuration
 
