@@ -179,7 +179,7 @@ Example output.
 
 ```
 {
-  "count" : 3567913,
+  "count" : 3552913,
   "_shards" : {
     "total" : 5,
     "successful" : 5,
