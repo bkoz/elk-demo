@@ -31,19 +31,10 @@ oc expose svc elasticsearch
 
 Test connectivity through the router.
 
-Obtain the external route.
+Save the external route.
 
 ```
-oc get routes
-```
-
-```
-NAME            HOST/PORT                                       PATH      SERVICES        PORT       TERMINATION   WILDCARD
-elasticsearch   elasticsearch-elk.apps.example.com             elasticsearch   9200-tcp                 None
-```
-
-```
-ES_ROUTE=elasticsearch-elk.apps.example.com
+ES_ROUTE=$(oc get route --selector=app=elasticsearch --output=custom-columns=NAME:.spec.host --no-headers)
 ```
 
 Confirm the ElasticSearch pod is running and ready.
@@ -62,7 +53,7 @@ elasticsearch-2-jn49t   1/1       Running   9          19d
 Test the ElasticSearch endpoint.
 
 ```
-curl 'http://elasticsearch-elk.apps.example.com'
+curl ${ES_ROUTE}
 ```
 
 Expected output.
@@ -110,18 +101,13 @@ oc set volume dc/kibana --add --mount-path=/usr/share/kibana/data --claim-size=1
 Finally, expose the Kibana service as an OpenShift route.
 
 ```
-$ oc expose svc kibana
+oc expose svc kibana
 ```
 
-```
-$ oc get route kibana
-```
-
-Expected output.
+Save the Kibana route.
 
 ```
-NAME      HOST/PORT                                PATH      SERVICES   PORT       TERMINATION   WILDCARD
-kibana    kibana-elk.apps.example.com             kibana     5601-tcp                 None
+KIBANA_ROUTE=$(oc get route --selector=app=kibana --output=custom-columns=NAME:.spec.host --no-headers)
 ```
 
 Confirm the Kibana pod is running and ready.
@@ -172,7 +158,7 @@ bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
 Watch the progress.
 
 ```
-curl -XPOST "http://${ROUTE}:80/cars/_count?pretty"
+curl -XPOST "http://${ES_ROUTE}:80/cars/_count?pretty"
 ```
 
 Example output.
@@ -191,7 +177,7 @@ Example output.
 
 #### Add a visualization.
 
-* Visit the Kibana console (http://kibana-elk.apps.example.com)
+* Visit the Kibana console (${KIBANA_ROUTE})
 * Configure the index pattern to be ```cars*```
 * Create
 * Visualize -> Create visualization -> Pie
