@@ -26,7 +26,7 @@ expose the service by creating a route.
 
 ```
 oc new-app docker.elastic.co/elasticsearch/elasticsearch:6.0.1
-oc set volume dc/elasticsearch --add --mount-path=/usr/share/elasticsearch/data --claim-size=10G
+oc set volume dc/elasticsearch --add --mount-path=/usr/share/elasticsearch/data --claim-size=10G --claim-class=glusterfs-storage-block
 oc expose svc elasticsearch
 ```
 
