@@ -179,8 +179,9 @@ Example output.
 #### Kibana visualization.
 
 * Visit the Kibana console (${KIBANA_ROUTE})
-* Configure the index pattern to be ```cars*```
+* Change the index pattern from ```logstash-*``` to ```cars*```
 * -> Create
+* -> Discover
 
 ![Kibana](images/index.png)
 
