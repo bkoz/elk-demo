@@ -1,10 +1,10 @@
 # elk-demo
 
-How I deployed an ElasticSearch, Logstash, Kibana (EFK) stack on OpenShift. This is not a Red Hat supported document. 
+How I deployed a single node ElasticSearch, Logstash, Kibana (EFK) stack on OpenShift. This is for demonstration purposes and is not a Red Hat supported document. To deploy EFK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
 
 ### Node configuration
 
-The Elastic Search container requires a kernel parameter to be changed on the OpenShift
+The Elastic Search container requires a kernel parameter to be tuned on the OpenShift
 worker nodes.
 
 ```
