@@ -145,11 +145,15 @@ unzip classified-ads-for-cars.zip
 
 Edit ```logstash-load-csv.conf``` as follows. 
 
--> The ```path``` variable should point to where the CSV file is located.
+Input Section
+
+-> The ```path``` variable should point to the CSV file.
+
+Output Section
 
 -> The ```hosts``` variable should be set to the external ElasticSearch route defined in OpenShift.
 
-Run LogStash to upload the cars data into elastic search. This could take several minutes.
+Now run LogStash to upload the cars data into elastic search. This could take several minutes.
 
 ```
 bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
