@@ -137,21 +137,19 @@ wget https://artifacts.elastic.co/downloads/logstash/logstash-6.6.2.tar.gz
 tar zxf logstash-6.6.2.tar.gz
 ```
 
-Download some sample data.
+Download the sample data from https://www.kaggle.com/mirosval/personal-cars-classifieds 
 
 ```
-wget https://www.kaggle.com/mirosval/personal-cars-classifieds
-
 unzip classified-ads-for-cars.zip
 ```
 
 Edit ```logstash-load-csv.conf``` as follows. 
 
-The ```path``` variable should point to where the CSV file is located.
+-> The ```path``` variable should point to where the CSV file is located.
 
-The ```hosts``` variable should be set to the external ElasticSearch route defined in OpenShift.
+-> The ```hosts``` variable should be set to the external ElasticSearch route defined in OpenShift.
 
-Let LogStash upload the cars data into elastic search. This could take several minutes.
+Run LogStash to upload the cars data into elastic search. This could take several minutes.
 
 ```
 bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
