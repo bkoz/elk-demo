@@ -86,8 +86,8 @@ Example output.
 
 ### Kibana
 
-Use the OpenShift client to deploy the Kibana container with. The ```ELASTICSEARCH_URL``` variable gets set to
-the Kubernetes serivce name of the ElasticSearch database. This allows the Kibana pod to **discover** the 
+Use the OpenShift client to deploy the Kibana container. The ```ELASTICSEARCH_URL``` variable gets set to
+the ElasticSearch Kubernetes service name. This allows the Kibana pod to **discover** the 
 ElasticSearch service.
 
 ```
