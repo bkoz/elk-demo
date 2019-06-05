@@ -21,12 +21,20 @@ oc new-project elk
 
 ### ElasticSearch 
 
-Use the OpenShift client to deploy the container from ElasticSearch's registry, attach persistent storage and 
-expose the service by creating a route.
+Use the OpenShift client to deploy the container from ElasticSearch's registry.
 
 ```
-oc new-app docker.elastic.co/elasticsearch/elasticsearch:6.0.1
+oc new-app docker.elastic.co/elasticsearch/elasticsearch:6.8.0
+```
+Add persistent storage.
+
+```
 oc set volume dc/elasticsearch --add --mount-path=/usr/share/elasticsearch/data --claim-size=10G --claim-class=glusterfs-storage
+```
+
+Create a route.
+
+```
 oc expose svc elasticsearch
 ```
 
@@ -44,7 +52,7 @@ Confirm the ElasticSearch pod is running and ready.
 oc get pods
 ```
 
-Expected Output.
+Example Output.
 
 ```
 NAME                    READY     STATUS    RESTARTS   AGE
@@ -57,7 +65,7 @@ Test the ElasticSearch endpoint.
 curl ${ES_ROUTE}
 ```
 
-Expected output.
+Example output.
 
 ```
 {
@@ -79,27 +87,21 @@ Expected output.
 
 ### Kibana
 
-Allow this project to run containers with any uid. This command requires cluster admin privileges.
-
-```
-oc adm policy add-scc-to-user anyuid -z default -n $PROJ
-```
-
 Use the OpenShift client to deploy the Kibana container with. The ```ELASTICSEARCH_URL``` variable gets set to
 the Kubernetes serivce name of the ElasticSearch database. This allows the Kibana pod to **discover** the 
 ElasticSearch service.
 
 ```
-oc new-app docker.elastic.co/kibana/kibana:6.0.1 -e ELASTICSEARCH_URL=http://elasticsearch.elk.svc.cluster.local:9200
+oc new-app docker.elastic.co/kibana/kibana:6.8.0 -e ELASTICSEARCH_URL=http://elasticsearch.elk.svc.cluster.local:9200
 ```
 
-Next add persistent storage.
+Add persistent storage.
 
 ```
 oc set volume dc/kibana --add --mount-path=/usr/share/kibana/data --claim-size=1G
 ```
 
-Finally, expose the Kibana service as an OpenShift route.
+Expose the Kibana service as an OpenShift route.
 
 ```
 oc expose svc kibana
@@ -117,7 +119,7 @@ Confirm the Kibana pod is running and ready.
 oc get pods
 ```
 
-Expected Output.
+Example Output.
 
 ```
 NAME                    READY     STATUS    RESTARTS   AGE
@@ -162,7 +164,7 @@ Watch the progress.
 curl -XPOST "http://${ES_ROUTE}:80/cars/_count?pretty"
 ```
 
-Example output.
+Expected output.
 
 ```
 {
@@ -179,9 +181,10 @@ Example output.
 #### Kibana visualization.
 
 * Visit the Kibana console (${KIBANA_ROUTE})
-* Change the index pattern from ```logstash-*``` to ```cars*```
-* -> Create
 * -> Discover
+* Change the index pattern from ```logstash-*``` to ```cars*```
+* Set the time filter field to ```@timestamp```
+* -> Create Index Pattern
 
 ![Kibana](images/index.png)
 
