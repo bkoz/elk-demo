@@ -26,7 +26,8 @@ Use the OpenShift client to deploy the container from ElasticSearch's registry.
 ```
 oc new-app docker.elastic.co/elasticsearch/elasticsearch:6.8.0
 ```
-Add persistent storage.
+
+Add persistent storage (5GB minimum).
 
 ```
 oc set volume dc/elasticsearch --add --mount-path=/usr/share/elasticsearch/data --claim-size=10G --claim-class=glusterfs-storage-block
@@ -37,8 +38,6 @@ Create a route.
 ```
 oc expose svc elasticsearch
 ```
-
-Test connectivity through the router.
 
 Save the ElasticSearch route.
 
