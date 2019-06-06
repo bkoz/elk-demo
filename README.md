@@ -87,7 +87,7 @@ Example output.
 ### Kibana
 
 Use the OpenShift client to deploy the Kibana container. The ```ELASTICSEARCH_URL``` variable gets set to
-the ElasticSearch Kubernetes service name. This allows the Kibana pod to **discover** the 
+the ElasticSearch Kubernetes service hostname. This allows the Kibana pod to **discover** the 
 ElasticSearch service.
 
 ```
@@ -143,7 +143,7 @@ Download the sample data from https://www.kaggle.com/mirosval/personal-cars-clas
 unzip classified-ads-for-cars.zip
 ```
 
-Edit ```logstash-load-csv.conf``` as follows. 
+Edit ```logstash-load-csv.conf``` (provided in this repo) as follows. 
 
 Input Section
 
@@ -153,7 +153,7 @@ Output Section
 
 -> The ```hosts``` variable should be set to the external ElasticSearch route defined in OpenShift.
 
-Now run LogStash to upload the cars data into elastic search. This could take several minutes.
+Now run LogStash to upload the cars data into ElasticSearch. This could take several minutes.
 
 ```
 bin/logstash -f logstash-load-csv.conf > /dev/null 2>&1 &
