@@ -16,7 +16,7 @@ Login to the OpenShift API server and create a new project.
 ```
 oc login https://api.example.com 
 PROJ=elk
-oc new-project elk
+oc new-project ${PROJ}
 ```
 
 ### ElasticSearch 
