@@ -1,6 +1,6 @@
 # elk-demo
 
-How I deployed a single node ElasticSearch, Logstash, Kibana (EFK) stack on OpenShift. This is for demonstration purposes and is not a supported document. To deploy EFK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
+How I deployed a single node ElasticSearch, Logstash, Kibana (ELK) stack on OpenShift. This is for demonstration purposes and is not a supported document. To deploy ELK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
 
 ### Node configuration
 
