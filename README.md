@@ -128,7 +128,7 @@ kibana-3-vwxxj          1/1       Running   0          18d
 
 ### LogStash
 
-To get data into ElasticSearch, use the LogStash client for your operating system of choice. This
+To upload data into ElasticSearch, use the LogStash client for your operating system of choice. This
 example should work for Linux or MacOS systems.
 
 ```
