@@ -74,6 +74,15 @@ podman run -it --name kibana --network=elastic -p 5601:5601 docker.elastic.co/ki
 
 ```
 Copy the code and visit the URL presented. You will need the elastic enrollent token.
+After kibana initializes login with the `elastic` user and password from above.
+
+Upload some data.
+
+Integrations -> upload
+
+Name the index and choose *import*.
+
+View the index in *discover*.
 
 ### Openshift (4 years ago probably on Openshift 3.x)
 How I deployed a single node ElasticSearch, Logstash, Kibana (ELK) stack on OpenShift. This is for demonstration purposes and is not a supported document. To deploy ELK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
