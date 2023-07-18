@@ -5,14 +5,14 @@
 ### RHEL 9.2
 [Local testing with podman](https://www.elastic.co/guide/en/elasticsearch/reference/current/run-elasticsearch-locally.html)
 
-Create a container network.
+Create a container network bridge.
 ```
 podman network create elastic
 ```
 
 Start the elastic container.
 ```
-podman run -it --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -t docker.elastic.co/elasticsearch/elasticsearch:8.8.2
+podman run -it --name elasticsearch --network=elastic -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -t docker.elastic.co/elasticsearch/elasticsearch:8.8.2
 ```
 Copy and save the elastic password and enrollment token (expires in 30 minutes). It will be used when you visit the
 Kibana UI.
@@ -70,7 +70,7 @@ curl -k -u elastic:jPHCvK0m_hG_xHD5o--f -X GET https://10.0.14.228:9200/customer
 ```
 Kibana
 ```
-podman run -it --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:8.8.2
+podman run -it --name kibana --network=elastic -p 5601:5601 docker.elastic.co/kibana/kibana:8.8.2
 
 ```
 Copy the code and visit the URL presented. You will need the elastic enrollent token.
