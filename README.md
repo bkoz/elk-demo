@@ -4,18 +4,30 @@
 
 ### RHEL 9.2
 [Local testing with podman](https://www.elastic.co/guide/en/elasticsearch/reference/current/run-elasticsearch-locally.html)
+
+Create a container network.
+```
+podman network create elastic
+```
+
+Start the elastic container.
 ```
 podman run -it --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" -t docker.elastic.co/elasticsearch/elasticsearch:8.8.2
 ```
-Copy and save the enrollment token (expires in 30 minutes). It will be used when you visit the
+Copy and save the elastic password and enrollment token (expires in 30 minutes). It will be used when you visit the
 Kibana UI.
-```
-$ curl -k -u elastic:<password> https://127.0.0.1:9200/_cat/health
 
+A few health checks.
+```
+curl -k -u elastic:<password> https://127.0.0.1:9200/_cat/health
+```
+```
 1689710442 20:00:42 docker-cluster green 1 1 1 1 0 0 0 0 - 100.0%
 ```
 ```
-$ curl -k -u elastic:<password> https://127.0.0.1:9200
+curl -k -u elastic:<password> https://127.0.0.1:9200
+```
+```
 {
   "name" : "77e542c3f7fb",
   "cluster_name" : "docker-cluster",
@@ -47,8 +59,9 @@ $ curl -k -u elastic:password -X POST "https://10.0.14.228:9200/customer/_doc/1?
 
 GET the data.
 ```
-$ curl -k -u elastic:jPHCvK0m_hG_xHD5o--f -X GET https://10.0.14.228:9200/customer/_doc/1
-
+curl -k -u elastic:jPHCvK0m_hG_xHD5o--f -X GET https://10.0.14.228:9200/customer/_doc/1
+```
+```
 {"_index":"customer","_id":"1","_version":2,"_seq_no":1,"_primary_term":1,"found":true,"_source":
 {
   "firstname": "Jennifer",
@@ -60,8 +73,7 @@ Kibana
 podman run -it --name kibana -p 5601:5601 docker.elastic.co/kibana/kibana:8.8.2
 
 ```
-Copy the code and visit the URL presented.
-
+Copy the code and visit the URL presented. You will need the elastic enrollent token.
 
 ### Openshift (4 years ago probably on Openshift 3.x)
 How I deployed a single node ElasticSearch, Logstash, Kibana (ELK) stack on OpenShift. This is for demonstration purposes and is not a supported document. To deploy ELK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
