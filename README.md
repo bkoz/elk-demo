@@ -21,12 +21,16 @@ A few health checks.
 ```
 curl -k -u elastic:<password> https://127.0.0.1:9200/_cat/health
 ```
+
+Example output.
 ```
 1689710442 20:00:42 docker-cluster green 1 1 1 1 0 0 0 0 - 100.0%
 ```
 ```
 curl -k -u elastic:<password> https://127.0.0.1:9200
 ```
+
+Example output.
 ```
 {
   "name" : "77e542c3f7fb",
@@ -59,7 +63,7 @@ $ curl -k -u elastic:password -X POST "https://10.0.14.228:9200/customer/_doc/1?
 
 GET the data.
 ```
-curl -k -u elastic:jPHCvK0m_hG_xHD5o--f -X GET https://10.0.14.228:9200/customer/_doc/1
+curl -k -u elastic:password -X GET https://10.0.14.228:9200/customer/_doc/1
 ```
 ```
 {"_index":"customer","_id":"1","_version":2,"_seq_no":1,"_primary_term":1,"found":true,"_source":
