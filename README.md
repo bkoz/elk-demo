@@ -88,7 +88,28 @@ Name the index and choose *import*.
 
 View the index in *discover*.
 
-### Openshift (4 years ago probably on Openshift 3.x)
+### Openshift 4.12
+
+- Create a namespace
+- Install the Elastic Operator
+- Create an instance of Elastic
+- Create an instance of Kibana
+- Obtain the password for elastic
+```
+PASSWD=$(oc get secrets elasticsearch-sample-es-elastic-user -o=jsonpath="{.data.elastic}" | base64 --decode)
+```
+- Port forward the Kibana service (need to find out why a route doesn't work)
+```
+kubectl port-forward service/kibana-sample-kb-http 5601
+```
+- Visit https://127.0.0.1:5601
+  - Login as `elastic/$PASSWD`
+- Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
+
+
+
+
+### Openshift 3 
 How I deployed a single node ElasticSearch, Logstash, Kibana (ELK) stack on OpenShift. This is for demonstration purposes and is not a supported document. To deploy ELK at scale, you'll want to follow the [Elastic Cloud on Kubernetes](https://operatorhub.io/operator/elastic-cloud-eck) operator. 
 
 ### Node configuration
