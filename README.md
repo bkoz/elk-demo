@@ -76,9 +76,9 @@ podman run -it --name kibana --network=elastic -p 5601:5601 docker.elastic.co/ki
 Copy the code and visit the URL presented. You will need the elastic enrollent token.
 After kibana initializes login with the `elastic` user and password from above.
 
-Upload some data.
-
 Integrations -> upload
+
+Upload the [Linux log example](https://github.com/logpai/loghub/blob/master/Linux/Linux_2k.log)
 
 Name the index and choose *import*.
 
