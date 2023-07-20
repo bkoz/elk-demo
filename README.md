@@ -93,12 +93,40 @@ View the index in *discover*.
 - Create a namespace
 - Install the Elastic Operator
 - Create an instance of Elastic
+  - Choose the yaml view and add the `- ingest` member to the `node.roles`.
+
+```
+  - config:
+      node.attr.attr_name: attr_value
+      node.roles:
+      - master
+      - data
+      - ingest
+```
+
 - Create an instance of Kibana
+
+When creating the Kibana instance check *Disabled indicates that the provisioning of the 
+self-signed certifcate should be disabled.
+
+http -> certificate -> selfSignedCertificate -> disabled
+
+oc explain kibanas.kibana.k8s.elastic.co.spec.http.tls.selfSignedCertificate.disabled
+
+- Create a route for Kibana
+
+```
+oc create route edge my-kibana-route --service=kibana-sample-no-self-signed-kb-http
+```
+
 - Obtain the password for elastic
+
+
 ```
 PASSWD=$(oc get secrets elasticsearch-sample-es-elastic-user -o=jsonpath="{.data.elastic}" | base64 --decode)
 ```
 
+### Openshift Testing
 #### POST data using curl
 
 - Obtain the elastic service name that supports port 9200.
@@ -123,18 +151,13 @@ curl -k -u elastic:passwd https://elasticsearch-sample-es-http:9200/customer/_do
 ##### [Elastic Client](https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/overview.html)
 
 ##### Kibana UI
-- Port forward the Kibana service (need to find out why a route doesn't work)
+- Visit the Kibana route and login as `elastic/$PASSWD`
+
 ```
-kubectl port-forward service/kibana-sample-kb-http 5601
+oc get route --selector=common.k8s.elastic.co/type=kibana --output=custom-columns=NAME:.spec.host --no-headers
 ```
-- Visit https://127.0.0.1:5601
-  - Login as `elastic/$PASSWD`
+
 - Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
-
-
-```
-ES_ROUTE=$(oc get route --selector=app=elasticsearch --output=custom-columns=NAME:.spec.host --no-headers)
-```
 
 ##### LogStash (not tested with Openshift 4)
 
