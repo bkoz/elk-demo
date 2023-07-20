@@ -158,8 +158,9 @@ oc get route --selector=common.k8s.elastic.co/type=kibana --output=custom-column
 ```
 
 - Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
+- Integrations -> Upload file
 
-##### LogStash (not tested with Openshift 4)
+##### LogStash (old stuff that is not tested with Openshift 4)
 
 To upload data into ElasticSearch, use the LogStash client for your operating system of choice. This
 example should work for Linux or MacOS systems.
