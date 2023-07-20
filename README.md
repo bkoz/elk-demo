@@ -104,6 +104,21 @@ View the index in *discover*.
       - ingest
 ```
 
+ - Also disable the provisioning of a self-signed cert so an external Openshift route
+ with edge termination can be created.
+
+```
+spec:
+  auth: {}
+  http:
+    service:
+      metadata: {}
+      spec: {}
+    tls:
+      certificate: {}
+      selfSignedCertificate:
+        disabled: true
+```
 - Create an instance of Kibana
 
 When creating the Kibana instance check *Disabled indicates that the provisioning of the 
