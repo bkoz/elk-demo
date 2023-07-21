@@ -2,6 +2,75 @@
 
 ## Platforms 
 
+### Kubernetes approach using Openshift 4.12
+
+- [Install the ECK operator and stack.](https://github.com/bkoz/elastic)
+- Quick health checks (they should report *green* health)
+```bash
+oc get elasticsearches.elasticsearch.k8s.elastic.co
+oc get kibanas.kibana.k8s.elastic.co
+```
+- Get the password for elastic
+```bash
+PASSWD=$(oc get secrets elasticsearch-sample-es-elastic-user -o=jsonpath="{.data.elastic}" | base64 --decode)
+```
+- Get the route for elastic.
+```bash
+URL=https://$(oc get routes elastic -o=jsonpath="{.spec.host}")
+```
+
+### Check the Elastic cluster's health
+```bash
+curl -u elastic:$PASSWD $URL
+curl -u elastic:$PASSWD $URL/_cat/health
+```
+
+#### POST data using curl
+
+- Obtain the elastic service name that supports port 9200.
+```
+oc get svc
+```
+
+- Connect to the kibana pod
+```
+oc rsh <kibana-pod> bash
+```
+
+- POST some example data
+```bash
+curl -u elastic:$PASSWD -X POST $URL/customer/_doc/3?pretty -H 'Content-Type: application/json' -d'{"firstname": "Bob", "lastname": "K"}'
+```
+- GET the previous POST.
+```bash
+curl -u elastic:$PASSWD $URL/customer/_doc/3
+```
+
+##### [Elastic Client](https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/overview.html)
+
+##### Kibana UI
+- Port forward the Kibana service (need to find out why a route doesn't work)
+```
+kubectl port-forward service/kibana-sample-kb-http 5601
+```
+- Visit https://127.0.0.1:5601
+  - Login as `elastic/$PASSWD`
+- Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
+
+
+```
+ES_ROUTE=$(oc get route --selector=app=elasticsearch --output=custom-columns=NAME:.spec.host --no-headers)
+```
+
+##### LogStash (not tested with Openshift 4)
+
+To upload data into ElasticSearch, use the LogStash client for your operating system of choice. This
+example should work for Linux or MacOS systems.
+
+```
+wget https://artifacts.elastic.co/downloads/logstash/logstash-8.8.2-linux-x86_64.tar.gz
+```
+
 ### Container approach using podman on RHEL 9.2
 [Local testing with podman](https://www.elastic.co/guide/en/elasticsearch/reference/current/run-elasticsearch-locally.html)
 
@@ -88,101 +157,6 @@ Name the index and choose *import*.
 
 View the index in *discover*.
 
-### Kubernetes approach using Openshift 4.12
-
-- Create a namespace
-- Install the Elastic Operator
-- Create an instance of Elastic
-  - Choose the yaml view and add the `- ingest` member to the `node.roles`.
-
-```
-  - config:
-      node.attr.attr_name: attr_value
-      node.roles:
-      - master
-      - data
-      - ingest
-```
-
- - Also disable the provisioning of a self-signed cert so an external Openshift route
- with edge termination can be created.
-
-```
-spec:
-  auth: {}
-  http:
-    service:
-      metadata: {}
-      spec: {}
-    tls:
-      certificate: {}
-      selfSignedCertificate:
-        disabled: true
-```
-- Create an instance of Kibana
-
-When creating the Kibana instance check *Disabled indicates that the provisioning of the 
-self-signed certifcate should be disabled.
-
-http -> certificate -> selfSignedCertificate -> disabled
-
-oc explain kibanas.kibana.k8s.elastic.co.spec.http.tls.selfSignedCertificate.disabled
-
-- Create a route for Kibana
-
-```
-oc create route edge my-kibana-route --service=kibana-sample-no-self-signed-kb-http
-```
-
-- Obtain the password for elastic
-
-
-```
-PASSWD=$(oc get secrets elasticsearch-sample-es-elastic-user -o=jsonpath="{.data.elastic}" | base64 --decode)
-```
-
-### Openshift Testing
-#### POST data using curl
-
-- Obtain the elastic service name that supports port 9200.
-```
-oc get svc
-```
-
-- Connect to the kibana pod
-```
-oc rsh <kibana-pod> bash
-```
-
-- POST some example data
-```
-curl -k -u elastic:passwd -X POST "https://elasticsearch-sample-es-http:9200/customer/_doc/3?pretty" -H 'Content-Type: application/json' -d'{"firstname": "Bob", "lastname": "K"}'
-```
-- GET the previous POST.
-```
-curl -k -u elastic:passwd https://elasticsearch-sample-es-http:9200/customer/_doc/3
-```
-
-##### [Elastic Client](https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/overview.html)
-
-##### Kibana UI
-- Visit the Kibana route and login as `elastic/$PASSWD`
-
-```
-oc get route --selector=common.k8s.elastic.co/type=kibana --output=custom-columns=NAME:.spec.host --no-headers
-```
-
-- Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
-- Integrations -> Upload file
-
-##### LogStash (old stuff that is not tested with Openshift 4)
-
-To upload data into ElasticSearch, use the LogStash client for your operating system of choice. This
-example should work for Linux or MacOS systems.
-
-```
-wget https://artifacts.elastic.co/downloads/logstash/logstash-8.8.2-linux-x86_64.tar.gz
-```
 
 Download the sample data from https://www.kaggle.com/mirosval/personal-cars-classifieds 
 
