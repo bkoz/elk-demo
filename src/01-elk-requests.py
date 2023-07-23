@@ -9,28 +9,31 @@ import requests
 import json
 import argparse
 
-def get_health(session: requests.Session, url: str, port: str, verify: bool):
+def get_health(session: requests.Session, host: str, port: str, verify: bool):
     """
     get_health
+    """    
+    url = f'{host}:{port}'
+    r = session.get(url, verify=verify)
+    print(r.content.decode())
+    
+    url = f'{url}/_cat/health'
+    r = session.get(url, verify=verify)
+    print(r.content.decode())
+    
+    
+def create_index(session: requests.Session, host: str, port: str, verify: bool):
     """
-    r = session.get(f'{url}:{port}/_cat/health', verify=verify)
+    create_index - Create and read a simple index.
+    """
+
+    url = f'{host}:{port}/customer/_doc/0'
+    payload = {"firstname": "Bob", "lastname": "Koz"}
+    r = session.put(url, verify=verify, json=payload)
     print(r.content.decode())
-    r = session.get(f'{url}:{port}', verify=verify)
+
+    r = session.get(url, verify=verify)
     print(r.content.decode())
-
-
-# POST some example data.
-# url = f'http://{service}:9200/customer/_doc/4'
-# payload = {"firstname": "Bob", "lastname": "Koz"}
-# r = session.put(url, verify=verify_certs, json=payload)
-# print(r.content.decode())
-
-
-# ##### GET the example back.
-# url = f'http://{service}:9200/customer/_doc/4'
-# r = session.get(url, verify=verify_certs)
-# print(r.content.decode())
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -54,25 +57,14 @@ if __name__ == "__main__":
         default='elastic',
         help='Password for the ElasticSearch cluster'
         )
-    #parser.add_argument(
-    #    '--verify_certs', metavar='verify_certs', nargs='?',
-    #    type=bool,
-    #    default=True,
-    #    action='store_true',
-    #    help='Verify checking of SSL certs.'
-    #    )
+    
     parser.add_argument('-i', '--verify', action='store_true', default=False)
-
     args = parser.parse_args()
-    # if args.verify_certs == "False": args.verify_certs = False
+    
     print(f'host = {args.host}, port = {args.port}, user = {args.user}, password = {args.password}, verify = {args.verify}')
 
-
-    # service = 'elasticsearch-sample-es-http.elastic'
-    # user = 'elastic'
-    # password = 'password'
-    # verify_certs = False
     session = requests.Session()
     session.auth = (args.user, args.password)
     
     get_health(session, args.host, args.port, args.verify)
+    create_index(session, args.host, args.port, args.verify)
