@@ -46,7 +46,6 @@ KIBANA_ROUTE=https://$(oc get routes kibana -o=jsonpath="{.spec.host}")
 - Un-zip and upload the sample log data (`data/Linux_2k.log.gz`)
   - Integrations -> upload files
 
-
 ##### LogStash (not tested with Openshift 4)
 
 To upload data into ElasticSearch, use the LogStash client for your operating system of choice. This
