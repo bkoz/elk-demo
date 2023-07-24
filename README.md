@@ -25,23 +25,11 @@ curl -u elastic:$PASSWD $URL
 curl -u elastic:$PASSWD $URL/_cat/health
 ```
 
-#### POST data using curl
-
-- Obtain the elastic service name that supports port 9200.
-```
-oc get svc
-```
-
-- Connect to the kibana pod
-```
-oc rsh <kibana-pod> bash
-```
-
-- POST some example data
+##### POST data using curl
 ```bash
 curl -u elastic:$PASSWD -X POST $URL/customer/_doc/3?pretty -H 'Content-Type: application/json' -d'{"firstname": "Bob", "lastname": "K"}'
 ```
-- GET the previous POST.
+##### GET the previous POST.
 ```bash
 curl -u elastic:$PASSWD $URL/customer/_doc/3
 ```
@@ -49,18 +37,14 @@ curl -u elastic:$PASSWD $URL/customer/_doc/3
 ##### [Elastic Client](https://www.elastic.co/guide/en/elasticsearch/client/python-api/current/overview.html)
 
 ##### Kibana UI
-- Port forward the Kibana service (need to find out why a route doesn't work)
+```bash
+URL=https://$(oc get routes kibana -o=jsonpath="{.spec.host}")
 ```
-kubectl port-forward service/kibana-sample-kb-http 5601
-```
-- Visit https://127.0.0.1:5601
+
+- Visit https://$URL
   - Login as `elastic/$PASSWD`
 - Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
 
-
-```
-ES_ROUTE=$(oc get route --selector=app=elasticsearch --output=custom-columns=NAME:.spec.host --no-headers)
-```
 
 ##### LogStash (not tested with Openshift 4)
 
