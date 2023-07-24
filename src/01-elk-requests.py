@@ -12,7 +12,7 @@ import argparse
 def get_health(session: requests.Session, host: str, port: str, verify: bool):
     """
     get_health
-    """    
+    """
     url = f'{host}:{port}'
     r = session.get(url, verify=verify)
     print(r.content.decode())
