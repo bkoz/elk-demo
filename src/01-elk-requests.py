@@ -8,7 +8,7 @@ Example Elastic client using requests.
 import argparse
 import requests
 
-def get_health(session: requests.Session, host: str, port: str, verify: bool):
+def get_health(session: requests.sessions.Session, host: str, port: str, verify: bool):
     """
     get_health
     """
