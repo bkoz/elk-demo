@@ -5,9 +5,8 @@
 Example Elastic client using requests.
 """
 
-import requests
-import json
 import argparse
+import requests
 
 def get_health(session: requests.Session, host: str, port: str, verify: bool):
     """
@@ -16,12 +15,11 @@ def get_health(session: requests.Session, host: str, port: str, verify: bool):
     url = f'{host}:{port}'
     r = session.get(url, verify=verify)
     print(r.content.decode())
-    
+
     url = f'{url}/_cat/health'
     r = session.get(url, verify=verify)
     print(r.content.decode())
-    
-    
+
 def create_index(session: requests.Session, host: str, port: str, verify: bool):
     """
     create_index - Create and read a simple index.
