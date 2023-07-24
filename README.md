@@ -38,12 +38,13 @@ curl -u elastic:$PASSWD $URL/customer/_doc/3
 
 ##### Kibana UI
 ```bash
-URL=https://$(oc get routes kibana -o=jsonpath="{.spec.host}")
+KIBANA_ROUTE=https://$(oc get routes kibana -o=jsonpath="{.spec.host}")
 ```
 
-- Visit https://$URL
+- Visit $KIBANA_ROUTE with a browser.
   - Login as `elastic/$PASSWD`
-- Un-zip and upload the sample log data (`./data/Linux_2k.log.gz`)
+- Un-zip and upload the sample log data (`data/Linux_2k.log.gz`)
+  - Integrations -> upload files
 
 
 ##### LogStash (not tested with Openshift 4)
