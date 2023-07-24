@@ -63,6 +63,6 @@ if __name__ == "__main__":
 
     session = requests.Session()
     session.auth = (args.user, args.password)
-    
+ 
     get_health(session, args.host, args.port, args.verify)
     create_index(session, args.host, args.port, args.verify)
